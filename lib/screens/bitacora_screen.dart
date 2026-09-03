@@ -13,13 +13,16 @@ class BitacoraScreen extends StatefulWidget {
 
 class _BitacoraScreenState extends State<BitacoraScreen> {
   void _descargarJson(String contenido) {
-    final base64 = base64Encode(utf8.encode(contenido));
-    web.HTMLAnchorElement()
-      ..href = 'data:application/json;base64,$base64'
-      ..setAttribute('download', 'bitacora_accesos.json')
-      ..click();
-  }
+  final base64 = base64Encode(utf8.encode(contenido));
+  final anchor = web.HTMLAnchorElement()
+    ..href = 'data:application/json;base64,$base64'
+    ..setAttribute('download', 'bitacora_accesos.json')
+    ..style.display = 'none';
 
+  web.document.body?.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+}
   void _exportarBitacora() {
     _descargarJson(logService.exportJson());
   }
